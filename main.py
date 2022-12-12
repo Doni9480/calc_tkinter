@@ -46,24 +46,40 @@ def fn(value_text) -> str:
 
 def insert_simbol(simbol):
     text = input_val.cget('text')
-    match simbol:
-        case 'clr':
-            input_val.config(text='')
-        case 'clr_one':
-            text = text[:-1]
-            input_val.config(text=text)
-        case '=':
-            input_val.config(text=f'{input_val.cget("text")}{simbol}{fn(text)}')
-        case _:
-            if not text and simbol not in ['**', '//', '*', '+', '/']:
-                input_val.config(text=f'{input_val.cget("text")}{simbol}')
-            elif simbol in ['**', '//', '*', '+', '/'] and text[-1] in ['**', '//', '*', '+', '/']:
-                if simbol == '-' and text[-1] == '-':
-                    input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
-                else:
-                    input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
+    if simbol not in ['clr', 'clr_one']:
+        if not text:
+            # Надо даработать зту часть кода!
+            if simbol not in ['+', '/', '*', '**', '//', '.']:
+                input_val.config(text=f"{text}{simbol}")
             else:
-                input_val.config(text=f'{input_val.cget("text")}{simbol}')
+                input_val.config(text=f"{text}{simbol}")
+    elif simbol == 'clr':
+        input_val.config(text=f"")
+    elif simbol == 'clr_one':
+        text = text[:-1]
+        input_val.config(text=f"{text}")
+
+
+# def insert_simbol(simbol):
+#     text = input_val.cget('text')
+#     match simbol:
+#         case 'clr':
+#             input_val.config(text='')
+#         case 'clr_one':
+#             text = text[:-1]
+#             input_val.config(text=text)
+#         case '=':
+#             input_val.config(text=f'{input_val.cget("text")}{simbol}{fn(text)}')
+#         case _:
+#             if not text and simbol not in ['**', '//', '*', '+', '/']:
+#                 input_val.config(text=f'{input_val.cget("text")}{simbol}')
+#             elif simbol in ['**', '//', '*', '+', '/'] and text[-1] in ['**', '//', '*', '+', '/']:
+#                 if simbol == '-' and text[-1] == '-':
+#                     input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
+#                 else:
+#                     input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
+#             else:
+#                 input_val.config(text=f'{input_val.cget("text")}{simbol}')
 
 
 btn = tk.Button(master=frame_2, text=f'{n[0]}', bg='#227', fg='#fff', font=('', 15), width=8, height=3,
@@ -79,49 +95,49 @@ btn = tk.Button(master=frame_2, text=f'{n[3]}', bg='#633', fg='#fff', font=('', 
                 command=lambda: insert_simbol(f'clr_one'))
 btn.grid(row=0, column=3, padx=5, pady=5)
 
-btn = tk.Button(master=frame_2, text=f'{n[4]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[4]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[4]}'))
 btn.grid(row=1, column=0, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[5]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[5]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[5]}'))
 btn.grid(row=1, column=1, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[6]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[6]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[6]}'))
 btn.grid(row=1, column=2, padx=5, pady=5)
 btn = tk.Button(master=frame_2, text=f'{n[7]}', bg='#227', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[7]}'))
 btn.grid(row=1, column=3, padx=5, pady=5)
 
-btn = tk.Button(master=frame_2, text=f'{n[8]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[8]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[8]}'))
 btn.grid(row=2, column=0, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[9]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[9]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[9]}'))
 btn.grid(row=2, column=1, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[10]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[10]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[10]}'))
 btn.grid(row=2, column=2, padx=5, pady=5)
 btn = tk.Button(master=frame_2, text=f'{n[11]}', bg='#227', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[11]}'))
 btn.grid(row=2, column=3, padx=5, pady=5)
 
-btn = tk.Button(master=frame_2, text=f'{n[12]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[12]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[12]}'))
 btn.grid(row=3, column=0, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[13]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[13]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[13]}'))
 btn.grid(row=3, column=1, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[14]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[14]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[14]}'))
 btn.grid(row=3, column=2, padx=5, pady=5)
 btn = tk.Button(master=frame_2, text=f'{n[15]}', bg='#227', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[15]}'))
 btn.grid(row=3, column=3, padx=5, pady=5)
 
-btn = tk.Button(master=frame_2, text=f'{n[16]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[16]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[16]}'))
 btn.grid(row=4, column=0, padx=5, pady=5)
-btn = tk.Button(master=frame_2, text=f'{n[17]}', font=('', 15), width=8, height=3,
+btn = tk.Button(master=frame_2, text=f'{n[17]}', bg='#666', fg='#fff', font=('', 15), width=8, height=3,
                 command=lambda: insert_simbol(f'{n[17]}'))
 btn.grid(row=4, column=1, padx=5, pady=5)
 btn = tk.Button(master=frame_2, text=f'{n[18]}', bg='#272', fg='#fff', font=('', 15), width=8, height=3,
