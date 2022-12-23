@@ -1,6 +1,6 @@
 """
                                         GUI калькулятор на библеотеке TKINTER
-                                                Version: 1.1
+                                                Version: 1.2
 """
 
 import tkinter as tk
@@ -12,7 +12,8 @@ window['bg'] = '#444'
 window.resizable(width=False, height=False)
 
 n = ['x**2', '//', 'C', '<<', '1', '2', '3', '+', '4', '5', '6', '-', '7', '8', '9', '*', '.', '0', '=', '/']
-
+oper = ['-', '+', '/', '*', '//', '**']
+nums = [str(i) for i in range(10)]
 num = 0
 frame_1 = tk.Frame(master=window, bg='#444', height=2)
 frame_1.pack(pady=(5, 0))
@@ -20,66 +21,78 @@ frame_1.pack(pady=(5, 0))
 frame_2 = tk.Frame(master=window, bg='#444')
 frame_2.pack()
 
-input_val = tk.Label(master=frame_1, font=('', 28), width=20, height=2)
-input_val.grid(row=0, pady=5, padx=5)
+input_val = tk.Entry(master=frame_1, font=('', 40), width=15)
+input_val.grid(row=0, pady=10, padx=5)
 
 def fn(value_text) -> str:
     if '+' in value_text:
-        a, b = list(map(int, value_text.split('+')))
+        a, b = map(int, value_text.split('+'))
         return a + b
-    elif '-' in value_text:
-        a, b = list(map(int, value_text.split('-')))
+    elif '-' in value_text and value_text[0] != '-':
+        a, b = map(int, value_text.split('-'))
         return a - b
-    elif '*' in value_text:
-        a, b = list(map(int, value_text.split('*')))
-        return a * b
-    elif '/' in value_text:
-        a, b = list(map(int, value_text.split('/')))
-        return a / b
     elif '**' in value_text:
-        a, b = list(map(int, value_text.split('**')))
+        a, b = map(int, value_text.split('**'))
         return a ** b
     elif '//' in value_text:
-        a, b = list(map(int, value_text.split('//')))
+        a, b = map(int, value_text.split('//'))
         return a // b
+    elif '*' in value_text:
+        a, b = map(int, value_text.split('*'))
+        return a * b
+    elif '/' in value_text:
+        a, b = map(int, value_text.split('/'))
+        if '0' not in [a, b]:
+            return a / b
+        else:
+            return '0'
 
+
+def check_is_operator(val):
+    if val[-1] in nums:
+        get_rez = 0
+        if val[0] == '-':
+            text_val = val[1:]
+        else:
+            text_val = val
+
+        for o in oper:
+            get_rez += text_val.count(o)
+            if get_rez:
+                input_val.delete(0, tk.END)
+                input_val.insert(0, fn(val))
+                break
 
 def insert_simbol(simbol):
-    text = input_val.cget('text')
-    if simbol not in ['clr', 'clr_one']:
-        if not text:
-            # Надо даработать зту часть кода!
-            if simbol not in ['+', '/', '*', '**', '//', '.']:
-                input_val.config(text=f"{text}{simbol}")
-            else:
-                input_val.config(text=f"{text}{simbol}")
-    elif simbol == 'clr':
-        input_val.config(text=f"")
-    elif simbol == 'clr_one':
-        text = text[:-1]
-        input_val.config(text=f"{text}")
-
-
-# def insert_simbol(simbol):
-#     text = input_val.cget('text')
-#     match simbol:
-#         case 'clr':
-#             input_val.config(text='')
-#         case 'clr_one':
-#             text = text[:-1]
-#             input_val.config(text=text)
-#         case '=':
-#             input_val.config(text=f'{input_val.cget("text")}{simbol}{fn(text)}')
-#         case _:
-#             if not text and simbol not in ['**', '//', '*', '+', '/']:
-#                 input_val.config(text=f'{input_val.cget("text")}{simbol}')
-#             elif simbol in ['**', '//', '*', '+', '/'] and text[-1] in ['**', '//', '*', '+', '/']:
-#                 if simbol == '-' and text[-1] == '-':
-#                     input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
-#                 else:
-#                     input_val.config(text=f'{input_val.cget("text")[:-1]}{simbol}')
-#             else:
-#                 input_val.config(text=f'{input_val.cget("text")}{simbol}')
+    if simbol in ['clr', 'clr_one']:
+        match simbol:
+            case 'clr_one':
+                input_val.delete(len(input_val.get())-1)
+            case 'clr':
+                input_val.delete(0, tk.END)
+    elif simbol in oper:
+        val = input_val.get()
+        if not val:
+            if simbol == '-':
+                input_val.insert(0, simbol)
+        else:
+            if val[-1] in nums:
+                check_is_operator(val=val)
+                input_val.insert(tk.END, simbol)
+            elif val[-1] in oper and len(val) >= 2:
+                if val[-1] in oper:
+                    if val[-2] in oper:
+                        input_val.delete(len(val)-2, tk.END)
+                        input_val.insert(tk.END, simbol)
+                    else:
+                        input_val.delete(len(val) - 1)
+                        input_val.insert(tk.END, simbol)
+    elif simbol in ['=']:
+        check_is_operator(val=input_val.get())
+    elif simbol in ['.']:
+        ...
+    else:
+        input_val.insert(tk.END, simbol)
 
 
 btn = tk.Button(master=frame_2, text=f'{n[0]}', bg='#227', fg='#fff', font=('', 15), width=8, height=3,
@@ -149,3 +162,4 @@ btn.grid(row=4, column=3, padx=5, pady=5)
 
 
 window.mainloop()
+
